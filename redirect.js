@@ -14,16 +14,16 @@ import {
 
 (async () => {
   const client = await createAuthenticatedClient({
-    walletAddressUrl: process.env.APP_IN_WALLET_ADDRESS_URL,
-    keyId: process.env.APP_KEY_ID,
-    privateKey: process.env.APP_PRIVATE_KEY,
+    walletAddressUrl: process.env.APP_IH2024_IN_WALLET_ADDRESS_URL,
+    keyId: process.env.APP_IH2024_KEY_ID,
+    privateKey: process.env.APP_IH2024_PRIVATE_KEY,
   });
 
   const sendingWalletAddress = await client.walletAddress.get({
-    url: process.env.APP_IN_WALLET_ADDRESS_URL,
+    url: process.env.APP_IH2024_IN_WALLET_ADDRESS_URL,
   });
   const receivingWalletAddress = await client.walletAddress.get({
-    url: process.env.APP_OUT_WALLET_ADDRESS_URL,
+    url: process.env.APP_IH2024_OUT_WALLET_ADDRESS_URL,
   });
 
   // console.log(
@@ -64,7 +64,7 @@ import {
       incomingAmount: {
         assetCode: receivingWalletAddress.assetCode,
         assetScale: receivingWalletAddress.assetScale,
-        value: process.env.APP_AMOUNT,
+        value: process.env.APP_IH2024_AMOUNT,
       },
     }
   );
@@ -116,11 +116,11 @@ import {
   let interact = {
     start: ["redirect"],
   }
-  if (process.env.APP_SUCCESS_URL != "") {
+  if (process.env.APP_IH2024_SUCCESS_URL != "") {
     interact.finish = {
       method: "redirect",
-      uri: process.env.APP_SUCCESS_URL,
-      nonce: process.env.APP_NONCE,
+      uri: process.env.APP_IH2024_SUCCESS_URL,
+      nonce: process.env.APP_IH2024_NONCE,
     }
   }
   const outgoingPaymentGrant = await client.grant.request(

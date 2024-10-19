@@ -10,13 +10,13 @@ import {
 
 (async () => {
   const client = await createAuthenticatedClient({
-    walletAddressUrl: process.env.APP_IN_WALLET_ADDRESS_URL,
-    keyId: process.env.APP_KEY_ID,
-    privateKey: process.env.APP_PRIVATE_KEY,
+    walletAddressUrl: process.env.APP_IH2024_IN_WALLET_ADDRESS_URL,
+    keyId: process.env.APP_IH2024_KEY_ID,
+    privateKey: process.env.APP_IH2024_PRIVATE_KEY,
   });
 
   const sendingWalletAddress = await client.walletAddress.get({
-    url: process.env.APP_IN_WALLET_ADDRESS_URL,
+    url: process.env.APP_IH2024_IN_WALLET_ADDRESS_URL,
   });
 
   let finalizedOutgoingPaymentGrant;
@@ -26,8 +26,8 @@ import {
 
   try {
     finalizedOutgoingPaymentGrant = await client.grant.continue({
-      url: process.env.APP_CONTINUE_URI,
-      accessToken: process.env.APP_CONTINUE_ACCESS_TOKEN,
+      url: process.env.APP_IH2024_CONTINUE_URI,
+      accessToken: process.env.APP_IH2024_CONTINUE_ACCESS_TOKEN,
     });
   } catch (err) {
     if (err instanceof OpenPaymentsClientError) {
@@ -61,7 +61,7 @@ import {
     },
     {
       walletAddress: sendingWalletAddress.id,
-      quoteId: process.env.APP_QUOTE_ID,
+      quoteId: process.env.APP_IH2024_QUOTE_ID,
     }
   );
 

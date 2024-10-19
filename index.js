@@ -17,16 +17,16 @@ import readline from "readline/promises";
 
 (async () => {
   const client = await createAuthenticatedClient({
-    walletAddressUrl: process.env.APP_IN_WALLET_ADDRESS_URL,
-    keyId: process.env.APP_KEY_ID,
-    privateKey: process.env.APP_PRIVATE_KEY,
+    walletAddressUrl: process.env.APP_IH2024_IN_WALLET_ADDRESS_URL,
+    keyId: process.env.APP_IH2024_KEY_ID,
+    privateKey: process.env.APP_IH2024_PRIVATE_KEY,
   });
 
   const sendingWalletAddress = await client.walletAddress.get({
-    url: process.env.APP_IN_WALLET_ADDRESS_URL,
+    url: process.env.APP_IH2024_IN_WALLET_ADDRESS_URL,
   });
   const receivingWalletAddress = await client.walletAddress.get({
-    url: process.env.APP_OUT_WALLET_ADDRESS_URL,
+    url: process.env.APP_IH2024_OUT_WALLET_ADDRESS_URL,
   });
 
   console.log(
