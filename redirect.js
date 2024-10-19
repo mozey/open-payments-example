@@ -113,6 +113,16 @@ import {
 
   // Step 5: Start the grant process for the outgoing payments.
   // This is an interactive grant: the user (in this case, you) will need to accept the grant by navigating to the outputted link.
+  let interact = {
+    start: ["redirect"],
+  }
+  if (process.env.APP_SUCCESS_URL != "") {
+    interact.finish = {
+      method: "redirect",
+      uri: process.env.APP_SUCCESS_URL,
+      nonce: process.env.APP_NONCE,
+    }
+  }
   const outgoingPaymentGrant = await client.grant.request(
     {
       url: sendingWalletAddress.authServer,
@@ -130,14 +140,7 @@ import {
           },
         ],
       },
-      interact: {
-        start: ["redirect"],
-        finish: {
-          method: "redirect",
-          uri: process.env.APP_SUCCESS_URL,
-          nonce: process.env.APP_NONCE,
-        },
-      },
+      interact: interact,
     }
   );
 
@@ -152,6 +155,7 @@ import {
     "Redirect": outgoingPaymentGrant.interact.redirect,
     "ContinueURI": outgoingPaymentGrant.continue.uri,
     "AccessToken": outgoingPaymentGrant.continue.access_token.value,
+    "QuoteID": quote.id,
   });
 
   process.exit(0);

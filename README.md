@@ -71,8 +71,11 @@ node redirect.js
 
 conf continue # Set config in .env.continue.sh
 node continue.js
-# Below because no server is running at webhook URL yet?
+
+# APP_SUCCESS_URL must be empty string otherwise continue.js fails with:
 # "There was an error continuing the grant.
 # You probably have not accepted the grant at the url
 # (or it has already been used up, in which case, rerun the script)."
+
+# Above error because APP_SUCCESS_URL returns 404?
 ```

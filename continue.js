@@ -61,7 +61,7 @@ import {
     },
     {
       walletAddress: sendingWalletAddress.id,
-      quoteId: quote.id,
+      quoteId: process.env.APP_QUOTE_ID,
     }
   );
 
