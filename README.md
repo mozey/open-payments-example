@@ -1,17 +1,78 @@
-# Open Payments Example
+# Payment Redirect with Open Payments API
 
-This script sends money between two wallet addresses, using the [Open Payments client](https://github.com/interledger/open-payments/tree/main/packages/open-payments).
+Install dependencies
+```bash
+pnpm install
+```
 
-The script creates an incoming payment on the receiving wallet address, and a quote on the sending wallet address (after getting grants for both). It also creates an interactive outgoing payment grant, which will require user interaction.
+[Interactive Grant Example](https://github.com/interledger/open-payments-example)
+```bash
+# Create private key
+# https://wallet.interledger-test.dev/settings/developer-keys
+touch ih2024-eur.key
 
-The script then finalizes the grant (after it's accepted interactively via the browser), and creates the outgoing payment.
+# Set environment
+cp .env.sample.sh .env
 
-### Steps
+# Run example
+node index.js
+```
 
-1. Make sure you have NodeJS installed
-2. Run `npm install`
-3. Get a private key, client wallet address and keyId from the [test wallet](https://rafiki.money), and add them in the script.
-4. Pick a receiving wallet address, and a sending wallet address.
-5. Run `node index.js`
-6. Click on the outputted URL, to accept the outgoing payment grant.
-7. Return to the terminal, hit enter. After this, the script will create the outgoing payment and funds will move between the receiver and the sender!
+Refactored above example into the two scripts listed below:
+
+## redirect.js
+
+Env input
+- APP_IN_WALLET_ADDRESS_URL
+- APP_OUT_WALLET_ADDRESS_URL
+- APP_KEY_ID
+- APP_PRIVATE_KEY
+- APP_SUCCESS_URL
+
+Console output
+```javascript
+{
+  "Redirect": outgoingPaymentGrant.interact.redirect,
+  "ContinueURI": outgoingPaymentGrant.continue.uri,
+  "AccessToken": outgoingPaymentGrant.continue.access_token.value,
+}
+```
+
+ASE will redirect to e.g.
+```
+https://localhost:8443/api/admin/webhook/ih2024?result=grant_rejected
+https://localhost:8443/api/admin/webhook/ih2024?result=grant_accepted
+```
+
+## continue.js
+
+Env input
+- APP_IN_WALLET_ADDRESS_URL
+- APP_KEY_ID
+- APP_PRIVATE_KEY
+- APP_CONTINUE_URI
+- APP_CONTINUE_ACCESS_TOKEN
+
+Console output
+```javascript
+{
+  "InteractionResult": acceptOrReject,
+  "PaymentSuccess": trueOrFalse,
+  "Error": errorMessage
+}
+```
+
+## Two step interaction
+
+```bash
+conf # Set config in .env
+node redirect.js
+# Copy and paste config values from script output
+
+conf continue # Set config in .env.continue.sh
+node continue.js
+# Below because no server is running at webhook URL yet?
+# "There was an error continuing the grant.
+# You probably have not accepted the grant at the url
+# (or it has already been used up, in which case, rerun the script)."
+```

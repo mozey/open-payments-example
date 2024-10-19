@@ -2,4 +2,7 @@
 .DS_Store
 
 *.key
+/.env
+/.env.continue.sh
 node_modules
+pnpm-lock.yaml
